@@ -8,11 +8,15 @@ export default function ApplicationsTable() {
   const [error, setError] = useState(null);
 
   // Load applications from backend API
+  // This function handles the API call to fetch all applications for admin view
+  // Uses environment variable for API base URL to support different environments
   const loadApplications = async () => {
     try {
       setLoading(true);
       setError(null);
 
+      // Fetch all candidates from the admin endpoint
+      // This endpoint is protected by admin authentication middleware
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/candidates/admin/all`);
 
       if (!response.ok) {
@@ -31,15 +35,19 @@ export default function ApplicationsTable() {
   };
 
   // Load applications on component mount
+  // useEffect ensures this only runs once when the component is first rendered
   useEffect(() => {
     loadApplications();
   }, []);
 
   // Update application status
+  // This function handles status changes from the dropdown in the admin interface
+  // Sends PUT request to update candidate status in the database
   const updateApplicationStatus = async (id, newStatus) => {
     try {
       console.log(`ApplicationsTable: Updating status for application ${id} to: ${newStatus}`);
 
+      // Send status update to backend API
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/candidates/${id}/status`, {
         method: 'PUT',
         headers: {
@@ -56,6 +64,7 @@ export default function ApplicationsTable() {
       console.log('ApplicationsTable: Status updated successfully:', updatedApplication);
 
       // Reload applications to reflect the change
+      // This ensures the UI updates immediately after status change
       await loadApplications();
     } catch (err) {
       console.error('ApplicationsTable: Failed to update status:', err);
@@ -64,12 +73,15 @@ export default function ApplicationsTable() {
   };
 
   // Delete application
+  // Permanently removes an application from the database
+  // Includes confirmation dialog for safety
   const deleteApplication = async (id) => {
     if (!window.confirm('Are you sure you want to delete this application?')) {
       return;
     }
 
     try {
+      // Send delete request to backend API
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/candidates/${id}`, {
         method: 'DELETE',
       });
@@ -88,6 +100,8 @@ export default function ApplicationsTable() {
   };
 
   // Get status badge color
+  // Returns Tailwind CSS classes for status badge styling
+  // Different colors for different application statuses
   const getStatusColor = (status) => {
     switch (status) {
       case 'Submitted': return 'bg-blue-900 text-blue-300';
@@ -100,6 +114,8 @@ export default function ApplicationsTable() {
   };
 
   // Get status button color for dropdown
+  // Returns Tailwind CSS classes for dropdown button styling
+  // Matches the badge colors but for interactive elements
   const getStatusButtonColor = (status) => {
     switch (status) {
       case 'Submitted': return 'bg-blue-600 hover:bg-blue-700';
@@ -173,6 +189,8 @@ export default function ApplicationsTable() {
           </TableHeader>
           <TableBody>
             {applications.map((app) => (
+              // Each application is rendered as a table row
+              // The key prop uses MongoDB _id for unique identification
               <TableRow key={app._id}>
                 <TableCell className="font-medium">
                   {app.firstName} {app.lastName}
@@ -181,11 +199,14 @@ export default function ApplicationsTable() {
                 <TableCell>{app.position}</TableCell>
                 <TableCell>{app.experience}</TableCell>
                 <TableCell>
+                  {/* Status badge with dynamic color based on application status */}
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(app.status)}`}>
                     {app.status}
                   </span>
                 </TableCell>
                 <TableCell>
+                  {/* Links section - conditionally renders different types of links */}
+                  {/* Uses conditional rendering to only show links that exist */}
                   <div className="space-y-2 text-sm">
                     {app.linkedIn && (
                       <div>
@@ -222,6 +243,7 @@ export default function ApplicationsTable() {
                     {app.coverLetter && (
                       <div>
                         <span className="text-gray-400">Cover Letter: </span>
+                        {/* Collapsible details element for long cover letters */}
                         <details className="mt-1">
                           <summary className="text-blue-400 cursor-pointer hover:text-blue-300">
                             View Cover Letter
@@ -242,6 +264,7 @@ export default function ApplicationsTable() {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
+                    {/* Status dropdown - allows admins to change application status */}
                     <select
                       value={app.status}
                       onChange={(e) => updateApplicationStatus(app._id, e.target.value)}
@@ -253,6 +276,7 @@ export default function ApplicationsTable() {
                       <option value="Accepted" className="bg-green-600 text-white hover:bg-green-700">Accepted</option>
                       <option value="Rejected" className="bg-red-600 text-white hover:bg-red-700">Rejected</option>
                     </select>
+                    {/* Delete button - permanently removes application */}
                     <button
                       onClick={() => deleteApplication(app._id)}
                       className="px-2 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors"
