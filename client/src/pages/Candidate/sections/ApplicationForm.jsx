@@ -126,14 +126,17 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
   };
 
   return (
+    // Main form container with responsive design and dark theme styling
     <div className="max-w-4xl mx-auto bg-gray-800 border border-gray-700 rounded-2xl p-3 md:p-6">
+      {/* Form header section */}
       <div className="mb-4 md:mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Job Application Form</h2>
         <p className="text-gray-400 text-sm md:text-base">Fill out the form below to apply for your desired position</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-        {/* Personal Information */}
+        {/* Personal Information Section */}
+        {/* Each section is wrapped in a styled container for visual separation */}
         <div className="bg-gray-900 rounded-xl p-3 md:p-4">
           <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Personal Information</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
@@ -166,6 +169,7 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
               />
             </div>
           </div>
+          {/* Second row of personal information fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -198,7 +202,8 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
           </div>
         </div>
 
-        {/* Position & Experience */}
+        {/* Position & Experience Section */}
+        {/* Job-specific information with dropdown selections */}
         <div className="bg-gray-900 rounded-xl p-3 md:p-4">
           <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Position & Experience</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
