@@ -8,4 +8,5 @@ export default defineConfig({
     react(),
     jsconfigPaths() // 2. Add the helper here
   ],
+  publicDir: 'public',
 })

@@ -1,6 +1,5 @@
 // Application form for job applications
 import { useState } from 'react';
-import { ApplicationStorage } from "@/lib/applicationStorage";
 
 export default function ApplicationForm({ onSubmit, onCancel }) {
   const [formData, setFormData] = useState({
@@ -40,43 +39,70 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
     setIsSubmitting(true);
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Prepare the data for the backend API
+      const submissionData = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        phone: formData.phone,
+        position: formData.position,
+        experience: formData.experience,
+        coverLetter: formData.coverLetter,
+        linkedIn: formData.linkedIn,
+        portfolio: formData.portfolio,
+        availability: formData.availability,
+      };
 
-      // Save application to localStorage using utility
-      const newApplication = ApplicationStorage.add(formData);
-
-      if (newApplication) {
-        // Dispatch custom event to notify admin dashboard
-        window.dispatchEvent(new CustomEvent('applicationSubmitted', {
-          detail: newApplication
-        }));
-
-        if (onSubmit) {
-          onSubmit(formData);
-        }
-
-        // Reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          position: '',
-          experience: '',
-          resume: null,
-          coverLetter: '',
-          linkedIn: '',
-          portfolio: '',
-          availability: ''
-        });
-
-        alert('Application submitted successfully! It will appear in the admin dashboard.');
-      } else {
-        throw new Error('Failed to save application');
+      // Add file information if resume is provided
+      if (formData.resume) {
+        submissionData.resumeFileName = formData.resume.name;
+        submissionData.resumeFileSize = formData.resume.size;
+        submissionData.resumeFileType = formData.resume.type;
+        // Note: In a real application, you would upload the file to a file storage service
+        // For now, we'll just store the file metadata
       }
+
+      // Submit to backend API
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/candidates`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Failed to submit application: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('ApplicationForm: Application submitted successfully:', result);
+
+      if (onSubmit) {
+        onSubmit(formData);
+      }
+
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        position: '',
+        experience: '',
+        resume: null,
+        coverLetter: '',
+        linkedIn: '',
+        portfolio: '',
+        availability: ''
+      });
+
+      alert('Application submitted successfully! It will appear in the admin dashboard.');
     } catch (error) {
-      alert('Error submitting application. Please try again.');
+      console.error('ApplicationForm: Error submitting application:', error);
+      alert(`Error submitting application: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }

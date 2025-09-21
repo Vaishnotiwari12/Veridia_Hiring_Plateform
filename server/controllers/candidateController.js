@@ -3,17 +3,48 @@ const Candidate = require('../models/candidateModel');
 // @desc   Create a new candidate for the logged-in user
 const createCandidate = async (req, res) => {
   try {
-    const { name, email, phone } = req.body;
+    const {
+      firstName,
+      lastName,
+      name,
+      email,
+      phone,
+      position,
+      experience,
+      coverLetter,
+      linkedIn,
+      portfolio,
+      availability,
+      resumeUrl,
+      resumeFileName,
+      resumeFileSize,
+      resumeFileType
+    } = req.body;
 
-    if (!name || !email || !phone) {
-      return res.status(400).json({ message: 'Please provide name, email, and phone' });
+    if (!firstName || !lastName || !email || !phone || !position || !experience) {
+      return res.status(400).json({
+        message: 'Please provide firstName, lastName, email, phone, position, and experience'
+      });
     }
 
     const candidate = await Candidate.create({
       userId: req.auth.userId,
-      name,
+      firstName,
+      lastName,
+      name: `${firstName} ${lastName}`,
       email,
       phone,
+      position,
+      experience,
+      coverLetter,
+      linkedIn,
+      portfolio,
+      availability,
+      resumeUrl,
+      resumeFileName,
+      resumeFileSize,
+      resumeFileType,
+      status: 'Submitted',
     });
 
     res.status(201).json(candidate);
