@@ -4,6 +4,10 @@
 
 A modern, full-stack hiring platform built with React, Node.js, Express, and MongoDB. Features role-based authentication with Clerk, candidate management, and admin dashboard functionality.
 
+### 🔗 Live Demo
+
+**🌐  Demo Link:** [https://veridia-hiring-plateform.vercel.app](https://veridia-hiring-plateform.vercel.app)
+
 ### 🛠️ Tech Stack
 
 **Frontend:**
@@ -30,8 +34,6 @@ A modern, full-stack hiring platform built with React, Node.js, Express, and Mon
 
 ### 🚀 Deployment
 
-#### Deploy Frontend to Vercel (Recommended)
-
 1. **Deploy to Vercel:**
    ```bash
    cd client
@@ -47,9 +49,18 @@ A modern, full-stack hiring platform built with React, Node.js, Express, and Mon
    - Frontend: `https://your-project.vercel.app`
    - Connect to your Render backend API
 
-📖 **Detailed deployment guide:** [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
+### 📱 Screenshots
 
-#### Backend Deployment (Render)
+#### Admin Dashboard
+![Admin Dashboard](client/public/admindashboard.jpg)
+
+#### Dashboard and Admin Dashboard
+![Dashboard and Admin Dashboard](client/public/dashboardandadmindashboard.jpg)
+
+#### Form and Signup
+![Form and Signup](client/public/formandsignup.jpg)
+
+### 🚀 Deployment
 
 Deploy your backend to Render.com:
 1. Create new Web Service on Render
