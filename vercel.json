@@ -15,6 +15,7 @@
       "dest": "/dist/$1"
     }
   ],
+  "outputDirectory": "dist",
   "build": {
     "env": {
       "NODE_ENV": "production"
