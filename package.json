@@ -1,0 +1,30 @@
+{
+  "name": "veridia-hiring-platform",
+  "version": "1.0.0",
+  "description": "Full-stack hiring platform with React frontend and Node.js backend",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build": "npm run build:client",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "vercel-build": "npm run build:client",
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install",
+    "start": "cd server && npm run dev"
+  },
+  "keywords": [
+    "hiring",
+    "recruitment",
+    "react",
+    "nodejs",
+    "mongodb",
+    "fullstack"
+  ],
+  "author": "Vaishno Tiwari",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

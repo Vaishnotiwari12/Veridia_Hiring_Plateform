@@ -52,13 +52,13 @@ A modern, full-stack hiring platform built with React, Node.js, Express, and Mon
 ### 📱 Screenshots
 
 #### Admin Dashboard
-![Admin Dashboard](client/public/admindashboard.jpg)
+![Admin Dashboard](admindashboard.jpg)
 
 #### Dashboard and Admin Dashboard
-![Dashboard and Admin Dashboard](client/public/dashboardandadmindashboard.jpg)
+![Dashboard and Admin Dashboard](dashboardandadmindashboard.jpg)
 
 #### Form and Signup
-![Form and Signup](client/public/formandsignup.jpg)
+![Form and Signup](formandsignup.jpg)
 
 ### 🚀 Deployment
 

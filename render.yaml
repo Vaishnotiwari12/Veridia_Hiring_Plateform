@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: veridia-hiring-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    rootDir: server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        fromSecret: mongo-uri
+      - key: CLERK_SECRET_KEY
+        fromSecret: clerk-secret-key
