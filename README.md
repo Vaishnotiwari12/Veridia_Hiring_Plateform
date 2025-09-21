@@ -28,39 +28,36 @@ A modern, full-stack hiring platform built with React, Node.js, Express, and Mon
 - 📱 **Responsive Design** - Mobile-first approach
 - 🎨 **Modern UI** - Dark theme with beautiful animations
 
-### 🚀 Quick Start
+### 🚀 Deployment
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Vaishnotiwari12/Veridia_Hiring_Plateform.git
-   cd Veridia_Hiring_Plateform
-   ```
+#### Deploy Frontend to Vercel (Recommended)
 
-2. **Install dependencies:**
+1. **Deploy to Vercel:**
    ```bash
-   # Client
    cd client
-   npm install
-
-   # Server
-   cd ../server
-   npm install
+   npm run build
+   vercel --prod
    ```
 
-3. **Set up environment variables:**
-   - Copy `.env.example` to `.env`
-   - Add your MongoDB URI and Clerk keys
+2. **Configure Environment Variables:**
+   - `VITE_CLERK_PUBLISHABLE_KEY` - Your Clerk publishable key
+   - `VITE_API_BASE_URL` - Your Render backend URL (e.g., `https://your-backend.onrender.com/api`)
 
-4. **Run the application:**
-   ```bash
-   # Terminal 1 - Backend
-   cd server
-   npm run dev
+3. **Access Your App:**
+   - Frontend: `https://your-project.vercel.app`
+   - Connect to your Render backend API
 
-   # Terminal 2 - Frontend
-   cd client
-   npm run dev
-   ```
+📖 **Detailed deployment guide:** [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
+
+#### Backend Deployment (Render)
+
+Deploy your backend to Render.com:
+1. Create new Web Service on Render
+2. Connect to GitHub: `Vaishnotiwari12/Veridia_Hiring_Plateform`
+3. Root Directory: `./server`
+4. Runtime: `Node`
+5. Build Command: `npm install`
+6. Start Command: `npm run dev`
 
 ### 📁 Project Structure
 
