@@ -1,7 +1,11 @@
 // Application form for job applications
+// This component handles the complete application submission process
+// Includes form validation, file handling, and API integration
 import { useState } from 'react';
 
 export default function ApplicationForm({ onSubmit, onCancel }) {
+  // Form state management - stores all form field values
+  // Using a single state object for better performance and easier management
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -9,15 +13,18 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
     phone: '',
     position: '',
     experience: '',
-    resume: null,
+    resume: null,        // File object for resume upload
     coverLetter: '',
     linkedIn: '',
     portfolio: '',
     availability: ''
   });
 
+  // UI state management - controls form submission and loading states
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Handle text input changes
+  // Uses functional update pattern to avoid stale closure issues
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -26,6 +33,8 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
     }));
   };
 
+  // Handle file input changes
+  // Stores the selected file object for later processing
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFormData(prev => ({
@@ -34,16 +43,19 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
     }));
   };
 
+  // Main form submission handler
+  // Handles the complete application submission workflow
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    e.preventDefault();    // Prevent default form submission
+    setIsSubmitting(true); // Show loading state
 
     try {
       // Prepare the data for the backend API
+      // Transform form data into the format expected by the backend
       const submissionData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
-        name: `${formData.firstName} ${formData.lastName}`,
+        name: `${formData.firstName} ${formData.lastName}`, // Computed full name
         email: formData.email,
         phone: formData.phone,
         position: formData.position,
@@ -55,6 +67,7 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
       };
 
       // Add file information if resume is provided
+      // Extract metadata from the file object for database storage
       if (formData.resume) {
         submissionData.resumeFileName = formData.resume.name;
         submissionData.resumeFileSize = formData.resume.size;
@@ -64,6 +77,7 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
       }
 
       // Submit to backend API
+      // Uses environment variable for API base URL to support different environments
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/candidates`, {
         method: 'POST',
         headers: {
@@ -80,11 +94,13 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
       const result = await response.json();
       console.log('ApplicationForm: Application submitted successfully:', result);
 
+      // Call parent callback if provided
       if (onSubmit) {
         onSubmit(formData);
       }
 
-      // Reset form
+      // Reset form to initial state
+      // Clears all form fields after successful submission
       setFormData({
         firstName: '',
         lastName: '',
@@ -99,12 +115,13 @@ export default function ApplicationForm({ onSubmit, onCancel }) {
         availability: ''
       });
 
+      // Show success message to user
       alert('Application submitted successfully! It will appear in the admin dashboard.');
     } catch (error) {
       console.error('ApplicationForm: Error submitting application:', error);
       alert(`Error submitting application: ${error.message}`);
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // Hide loading state
     }
   };
 
