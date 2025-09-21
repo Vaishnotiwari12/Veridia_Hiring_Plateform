@@ -1,0 +1,6 @@
+# Environment Variables - Prevent .env files from being committed
+.env
+.env.local
+.env.test.local
+.env.*.local
+
