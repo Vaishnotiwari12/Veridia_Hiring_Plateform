@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* client/src/index.css */
+/* Custom styles for better cursor visibility */
+select {
+  cursor: pointer !important;
+}
+
+select option {
+  cursor: pointer !important;
+}
+
+select:focus {
+  cursor: pointer !important;
+}
+
+/* Ensure dropdown options have proper cursor */
+option {
+  cursor: pointer !important;
+}
+
+/* Custom scrollbar for dropdown options */
+select::-webkit-scrollbar {
+  width: 8px;
+}
+
+select::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+select::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 4px;
+}
+
+select::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+@layer base {
+  * {
+    @apply border-gray-800;
+  }
+  body {
+    @apply bg-slate-900 text-white;
+  }
+}
